@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>聊天室</title>
+        <meta name="description" content="A privileged app stub">
+        <!--
+          viewport allows you to control how mobile browsers will render your content.
+          width=device-width tells mobile browsers to render your content across the
+          full width of the screen, without being zoomed out (by default it would render
+          it at a desktop width, then shrink it to fit.)
+          Read more about it here:
+          https://developer.mozilla.org/Mozilla/Mobile/Viewport_meta_tag
+        -->
+        <meta name="viewport" content="width=device-width initial-scale=1.0, user-scalable=no"/>
+        <link rel="stylesheet" href="css/app.css">
+        <link rel="stylesheet" href="css/login.css">
+        <link href='https://fonts.googleapis.com/css?family=Raleway:400, 600' rel='stylesheet' type='text/css'>
+        <!--
+        Inline JavaScript code is not allowed for privileged and certified apps,
+        due to Content Security Policy restrictions.
+        You can read more about it here: https://developer.mozilla.org/Apps/CSP
+        Plus keeping your JavaScript separated from your HTML is always a good practice!
+
+        We're also using the 'defer' attribute. This allows us to tell the browser that
+        it should not wait for this file to load before continuing to load the rest of
+        resources in the page. Then, once everything has been loaded, it will parse and
+        execute the deferred files.
+        Read about defer: https://developer.mozilla.org/Web/HTML/Element/script#attr-defer
+        -->
+        <script type="text/javascript" src="js/app.js" defer></script>
+        <script src="js/socket.io-client/socket.io.js" defer></script>
+        <script src="js/jquery-1.11.3.js" defer></script>
+        <script src="js/main.js" defer></script>
+        <script src="js/device.js" defer></script>
+        <script src="js/notifytest.js" defer></script>
+        <!--
+        The following two lines are for loading the localisations library
+        and the localisation data-so people can use the app in their
+        own language (as long as you provide translations).
+        -->
+        <link rel="prefetch" type="application/l10n" href="data/locales.ini" />
+        <script type="text/javascript" src="js/libs/l10n.js" defer></script>
+    </head>
+    <body>
+        <div id="login"><!--登入畫面-->
+            <div><h1>WEIKER</h1></div>
+            <div><h2>登入</h2></div>
+            <div>暱稱</div>
+            <input class="name"/><br />
+            <div>年齡</div>
+            <input class="age"/><br />
+            <div><button class="btn check">確定</button></div>
+        </div>
+        <!--主程式畫面-->
+        <div id="main">
+            <div id="header">
+                <button class="btn online">在線列表</button>
+                <select id = "userSelect" >
+                    <option value='all'>公開</option>
+                </select>
+            </div>
+            <div id="msgcontent"></div>
+            <div class="sidebar">
+                <button class="btn close">關閉</button>
+            </div>
+            <div id="inputcontent">
+                <div id="content">
+                    <div id="inputdiv">
+                        <input id="input" type="text" placeholder="想說的話..."/>
+                    </div>
+                    <div id="senddiv">
+                        <button class="btn send">傳送</button>
+                    </div>
+                    <div id="uploaddiv"> 
+                        <button class = "btn upload" class="btn"><img src="img/upload.svg" id="uploadimg"></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <input id = 'upload' type='file' accept="audio/*,video/*,image/*"/>
+    </body>
+</html>

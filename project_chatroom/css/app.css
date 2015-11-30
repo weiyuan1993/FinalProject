@@ -1,0 +1,236 @@
+*{
+  font-family: 'Raleway', sans-serif;
+  overflow: hidden;
+}
+body{
+  margin:0;
+  background-image: url("../img/back.jpg");
+  background-size:cover;
+  height:100%;
+}
+
+
+#main{
+  margin: 0px auto;
+  width:auto;
+  height:auto;
+}
+
+#header{  
+  width:100%;
+  height:40px;
+  background-color:#333333;
+  box-shadow:0 1px 2px 2px rgba(0,0,0,0.6);
+}
+
+#msgcontent{
+  width:100%;
+  height:456px;
+  overflow-x:hidden;
+  overflow-y:auto;
+  font-size:20px;
+  word-wrap: break-word; 
+  word-break:normal; 
+  background-color:#faf0e6;
+}
+.mySend{
+  clear:both;
+  float:right;
+}
+
+.myDialogue {
+  margin:10px;
+  padding:5px;
+  position:relative;
+  max-width:150px;
+  height:auto;
+  background:#F8C301;
+  border-radius:5px; 
+}
+
+.myDialogue .myArrow {
+  position:absolute;
+  top:5px;
+  right:-16px; 
+  width:0;
+  height:0;
+  font-size:12px;
+  border:solid 8px;
+  border-color:transparent transparent transparent #F8C301;
+}
+.otherSend{
+  clear:both;
+  float:left;
+}
+.otherDialogue {
+  margin:10px;
+  padding:5px;
+  position:relative;
+  left:10px;
+  max-width:150px;
+  height:auto;
+  background:#04d5d5;
+  border-radius:5px; 
+}
+
+.otherDialogue .otherArrow {
+  position:absolute;
+  top:5px;
+  left:-16px; 
+  width:0;
+  height:0;
+  font-size:20px;
+  border:solid 8px;
+  border-color: transparent #04d5d5 transparent transparent ;
+}
+.sendTime{
+  font-size: 16px;
+  text-align: right;
+}
+.othersendTime{
+  font-size: 16px;
+  text-align: left;
+}
+p{
+  margin:0;
+  color:black;
+  clear:both;
+}
+
+li{
+  list-style-type:none;
+  font-weight:bold;
+}
+.sidebar{
+  position:absolute;
+  top:40px;
+  left:-300px;
+  width:300px;
+  height:460px;
+  background-color:#DDDDDD;
+}
+
+#inputcontent{
+  width:100%;
+  height:40px;
+  background-color:#fff;
+}
+#content{
+  text-align: center;
+  width:100%;
+  height:auto;
+}
+#left,#center,#right{
+  display:inline-block;
+  height:40px;
+}
+#inputdiv{
+  width:63%;
+  float:left;
+}
+#senddiv{
+  width:20%;
+  float:left;
+}
+#uploaddiv{
+  width:17%;
+  float:left;
+  height:40px;
+}
+
+#input{
+  width:100%;
+  height:36px;
+  font-weight: bold;
+  outline:none;
+  resize: none;
+  border:0;
+  font-size: 20px;
+}
+.btn{
+  border:0;
+  background-color: #333;
+  color:white;
+  font-size:16px;
+  font-weight: bold;
+  padding:10px;
+  height:40px;
+  width:60px;
+  outline: none;
+}
+.btn:hover{
+  background: #117bff;
+  transition:background .5s;
+}
+
+.btn.send{
+  width:100%;
+}
+
+.btn.online{
+  top:12px;
+  width:auto;
+  height:40px;
+}
+
+
+.btn.close{
+  top:5px;
+  right:5px;
+  float:right;
+}
+.btn.upload{
+  width:100%;
+  border:0;
+  outline:none;
+  background-color: #a9a9a9;
+}
+.btn.upload:hover{
+    background: #117bff;
+  transition:background .5s;
+}
+#uploadimg{
+  width:35px;
+  position: relative;
+  bottom:10px;
+}
+
+#upload{
+  display: none;
+}
+
+#userSelect{
+  background-color: #333;
+  color:white;
+  padding : 5px;
+  font-size : 16px;
+  height:40px;
+  border:0;
+  float:right;
+  outline: none;
+ }
+.sendImg{
+  clear:both;
+  float:right;
+}
+
+
+.myImg,.otherImg{
+  border-radius: 8px;
+}
+.myImg{
+  float:right;
+  clear:both;
+  max-width:100%;
+  height:auto;
+}
+.otherImg{
+  float:left;
+  clear:both;
+  max-width:100%;
+  height:auto;
+}
+
+
+
+
