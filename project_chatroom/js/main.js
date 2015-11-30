@@ -37,7 +37,7 @@ $(function(){
 	});
 	//在線列表關閉鍵
 	$('.btn.close').click(function(){
-		$(".sidebar").animate({ left:'-300px' }, 500 ,'swing');
+		$(".sidebar").animate({ left:'-320px' }, 500 ,'swing');
 	});
 	//選擇密語對象鍵
 	$('#userSelect').change(function(){
