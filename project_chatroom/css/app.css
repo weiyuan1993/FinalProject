@@ -163,7 +163,7 @@ li{
   outline: none;
 }
 .btn:active{
-  background: #117bff;
+  background-color:rgba(238,68,95,1);
 }
 
 .btn.send{
@@ -177,7 +177,7 @@ li{
   height:40px;
 }
 .btn.online:active{
-  background: #117bff;
+  background-color:rgba(238,68,95,1);
 }
 
 .btn.close{
@@ -192,7 +192,7 @@ li{
   background-color: #a9a9a9;
 }
 .btn.upload:active{
-    background: #117bff;
+    background-color:rgba(238,68,95,1);
 }
 #uploadimg{
   width:35px;
@@ -214,7 +214,7 @@ li{
   border:0;
   float:right;
   outline: none;
-  width:60px;
+  width:auto;
  }
 #userSelect:active{
   background: #117bff;

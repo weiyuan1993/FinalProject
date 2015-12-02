@@ -1,22 +1,23 @@
 //user資訊
 var user = {
 	name:"",
-	age:"",
+	sex:"",
 	message:""
 };
 var receiveUser = 'all';
 
-
 $(function(){
-	var socket = io.connect('http://140.115.205.117:4000/'); //連接server
+	var socket = io.connect('http://140.115.205.117:4000/',{'reconnection':true,'reconnectionDelay':1000,'reconnectionDelayMax':5000}); //連接server
 	$('#main').hide();
 	$('.check').click(function(){	//輸入暱稱年齡後進入
 		user.name = $('.name').val();
-		user.age = $('.age').val();
-		socket.emit('new user',user.name);
-		if(user.name != "" && user.age != ""){  //欄位不可為空
+		user.sex = $('input[name=sex]:checked').val();
+		if(user.name != "" && (user.sex == 'boy'||user.sex == 'girl')){  //欄位不可為空
 			$('#login').hide();
 			$('#main').fadeIn('slow');
+			socket.emit('new user',user.name);
+		}else{
+			alert("名字和性別不得為空!");
 		}
 	});
 		  	
@@ -62,14 +63,16 @@ $(function(){
 
 	/*************socket.on*************/
     //接收別人的訊息
-	socket.on('message',function(user, receiveUser, message){
-		recieveMessage(user, receiveUser, message);
+	socket.on('message',function(user, receiveUser, message, time){
+		recieveMessage(user, receiveUser, message,time);
 		if (Notification && Notification.permission === "granted") {
-      		spawnNotification(user+": "+message,"img/icons/icon48x48.png","WEIKER");
+			if(document.hidden==true){//若APP不為前景頁面，則通知用戶訊息
+      			spawnNotification(user+": "+message,"img/icons/icon48x48.png","WEIKER");
+      		}
     	}
 	});
 	//接收別人的圖片
-	socket.on('image',function(user, receiveUser, image,time){
+	socket.on('image',function(user, receiveUser, image, time){
 		if(receiveUser=='all'){
 			$('#msgcontent').append('<p>'+ user + ":" +'</p>',[$('<img>', {class:"otherImg" ,src: image})],'<p class="othersendTime">'+time+'</p>');
 		}
@@ -77,7 +80,9 @@ $(function(){
 			$('#msgcontent').append('<p>[密語]'+ user + ":" +'</p>',[$('<img>', {class:"otherImg" ,src: image})],'<p class="othersendTime">'+time+'</p>');
 		}
 		if (Notification && Notification.permission === "granted") {
-      		spawnNotification(user+" 向您傳送了圖片","img/icons/icon48x48.png","WEIKER");
+			if(document.hidden==true){
+      			spawnNotification(user+" 向您傳送了圖片","img/icons/icon48x48.png","WEIKER");
+      		}
     	}
 		scrollMessage();
 	});
@@ -87,8 +92,7 @@ $(function(){
 	//add user list to selector without user-self
 		$('#userSelect').append($('<option></option>').attr('value', user).text(user));
 		$('.sidebar').append('<li>'+user+" " +'</li>');
-		/*$('.sidebar').append($('<li>',{class:user}));
-		$('.user').text(user);*/
+
     });
 
     //接收上線訊息
@@ -108,8 +112,22 @@ $(function(){
     });
 	//名稱重複
 	socket.on('name repeat',function(){
-	alert("這個名字有人使用囉!");
-	window.location.reload();
+		alert("這個名字有人使用囉!");
+		window.location.reload();
+	});
+	socket.on('disconnect',function(){
+		$('#msgcontent').append('<p class="loginmsg" style="color:red">與伺服器失去連接...</p>');
+
+	});
+	//重新連接伺服器訊息
+	socket.on('reconnecting',function(){
+		$('#msgcontent').append('<p class="loginmsg" style="color:red">正在重新連接伺服器...</p>');
+
+	});
+	//成功重新連接伺服器訊息
+	socket.on('reconnect',function(){
+		$('#msgcontent').append('<p class="loginmsg" style="color:red">成功重新連接伺服器!</p>');
+		socket.emit('new user',user.name);
 	});
 	/****************function******************/
 	// 傳輸訊息
@@ -133,14 +151,14 @@ $(function(){
 		}
 	}
 	//接收訊息
-	function recieveMessage(user, receiveUser, message){
+	function recieveMessage(user, receiveUser, message,time){
 		//公開聊天
 		if(receiveUser=='all'){
-			$('#msgcontent').append('<div class="otherSend"><div class="otherDialogue"><li>'+ user +": " +message+'</li><div class="otherArrow"></div></div>'+'<p class="othersendTime">'+nowTime()+'</p></div>');
+			$('#msgcontent').append('<div class="otherSend"><div class="otherDialogue"><li>'+ user +": " +message+'</li><div class="otherArrow"></div></div>'+'<p class="othersendTime">'+time+'</p></div>');
 		}
 		//私人聊天
 		else{
-			$('#msgcontent').append('<div class="otherSend"><div class="otherDialogue"><li>'+"[密語]"+user+ ": "+message+'</li><div class="otherArrow"></div></div>'+'<p class="othersendTime">'+nowTime()+'</p></div>');
+			$('#msgcontent').append('<div class="otherSend"><div class="otherDialogue"><li>'+"[密語]"+user+ ": "+message+'</li><div class="otherArrow"></div></div>'+'<p class="othersendTime">'+time+'</p></div>');
 		}
 		scrollMessage();
 	}
@@ -187,7 +205,6 @@ $(function(){
 		}
 		var n = new Notification(theTitle,options);
 	}
-
 
 
 });

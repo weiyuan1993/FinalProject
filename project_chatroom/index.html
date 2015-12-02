@@ -47,8 +47,11 @@
             <div><h2>登入</h2></div>
             <div>暱稱</div>
             <input class="name"/><br />
-            <div>年齡</div>
-            <input class="age"/><br />
+            <div>性別</div>
+            <div>
+                <label><input class="radiobtn" type="radio" name="sex" value="boy">男生</label>
+                <label><input class="radiobtn" type="radio" name="sex" value="girl">女生</label>
+            </div>
             <div><button class="btn check">確定</button></div>
         </div>
         <!--主程式畫面-->
@@ -78,6 +81,6 @@
             </div>
 
         </div>
-        <input id = 'upload' type='file' accept="audio/*,video/*,image/*"/>
+        <input id = 'upload' type='file' accept="image/*"/>
     </body>
 </html>
