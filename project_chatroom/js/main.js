@@ -93,11 +93,12 @@ $(function(){
 	});
 	//接收別人的圖片
 	socket.on('image',function(user, receiveUser, image, time,bighead){
-		if(receiveUser=='all'){
-			$('#msgcontent').append([$('<img>', {class:"otherBighead" ,src: bighead})],'<p>'+ user + ":" +'</p>',[$('<img>', {class:"otherImg" ,src: image})],'<p class="othersendTime">'+time+'</p>');
+		if(receiveUser=='all'){//公開頻道
+			$('#msgcontent').append('<p>'+ user + ":" +'</p>',[$('<img>', {class:"otherImg" ,src: image})],'<p class="othersendTime">'+time+'</p>');
+			
 		}
-		else{
-			$('#msgcontent').append([$('<img>', {class:"otherBighead" ,src: bighead})],'<p>[密語]'+ user + ":" +'</p>',[$('<img>', {class:"otherImg" ,src: image})],'<p class="othersendTime">'+time+'</p>');
+		else{//私人頻道
+				$('#msgcontent').append('<p>[密語]'+ user + ":" +'</p>',[$('<img>', {class:"otherImg" ,src: image})],'<p class="othersendTime">'+time+'</p>');
 		}
 		if (Notification && Notification.permission === "granted") {
 			if(document.hidden==true){
@@ -235,7 +236,7 @@ $(function(){
 				else{
 					$('#msgcontent').append('<p class="sendImg">[密語]給 '+ receiveUser + " :" +'</p>',[$('<img>', {class:"myImg" ,src: e.target.result})],'<p class="sendTime">'+nowTime()+'</p>');
 				}
-				socket.emit('image',user.name, receiveUser, e.target.result,nowTime());
+				socket.emit('image',user.name, receiveUser, e.target.result,nowTime(),bighead);
 			};       
 			FR.readAsDataURL( input.files[0] );
 		}
@@ -246,7 +247,7 @@ $(function(){
 		if ( input.files && input.files[0] ) {
 			var FR = new FileReader();
 			FR.onload = function(e){
-				$('.sidebar').prepend([$('<img>', {class:"mybighead" ,src: e.target.result})]);
+				$('#bigheadimg').prepend([$('<img>', {class:"mybighead" ,src: e.target.result})]);
 				user.bighead=e.target.result;
 			};
 			FR.readAsDataURL( input.files[0] );
