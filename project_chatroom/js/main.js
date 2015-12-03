@@ -2,7 +2,8 @@
 var user = {
 	name:"",
 	sex:"",
-	message:""
+	message:"",
+	bighead:""
 };
 var receiveUser = 'all';
 
@@ -15,6 +16,7 @@ $(function(){
 		if(user.name != "" && (user.sex == 'boy'||user.sex == 'girl')){  //欄位不可為空
 			$('#login').hide();
 			$('#main').fadeIn('slow');
+			$('#username').text(user.name);
 			socket.emit('new user',user.name);
 		}else{
 			alert("名字和性別不得為空!");
@@ -32,14 +34,26 @@ $(function(){
 			sendMessage();
 		}
 	});
-	//在線列表鍵
-	$('.btn.online').click(function(){
+	//設定鍵
+	$('.btn.set').click(function(){
 		$(".sidebar").animate({ left:'0px' }, 500 ,'swing');
+		$('.btn.set').hide();
+		$('.btn.close').show();
 	});
-	//在線列表關閉鍵
+	//sidebar 關閉鍵
 	$('.btn.close').click(function(){
 		$(".sidebar").animate({ left:'-320px' }, 500 ,'swing');
+		$('.btn.close').hide();
+		$('.btn.set').show();
 	});
+	$('.btn.bighead').click(function(){
+		$('#bighead').click();
+	});
+
+	$('.btn.signout').click(function(){
+		window.location.reload();
+	});
+
 	//選擇密語對象鍵
 	$('#userSelect').change(function(){
 		receiveUser = $('#userSelect').find(':selected').val();	
@@ -60,11 +74,17 @@ $(function(){
 			$('#upload').val('');
 		}
 	});
+	$('#bighead').change(function(){
+		if($('#bighead').val()!=''){
+			bigheadUpload(this);
+			$('.mybighead').remove();
+		}
+	});
 
 	/*************socket.on*************/
     //接收別人的訊息
-	socket.on('message',function(user, receiveUser, message, time){
-		recieveMessage(user, receiveUser, message,time);
+	socket.on('message',function(user, receiveUser, message, time,bighead){
+		recieveMessage(user, receiveUser, message,time,bighead);
 		if (Notification && Notification.permission === "granted") {
 			if(document.hidden==true){//若APP不為前景頁面，則通知用戶訊息
       			spawnNotification(user+": "+message,"img/icons/icon48x48.png","WEIKER");
@@ -72,12 +92,12 @@ $(function(){
     	}
 	});
 	//接收別人的圖片
-	socket.on('image',function(user, receiveUser, image, time){
+	socket.on('image',function(user, receiveUser, image, time,bighead){
 		if(receiveUser=='all'){
-			$('#msgcontent').append('<p>'+ user + ":" +'</p>',[$('<img>', {class:"otherImg" ,src: image})],'<p class="othersendTime">'+time+'</p>');
+			$('#msgcontent').append([$('<img>', {class:"otherBighead" ,src: bighead})],'<p>'+ user + ":" +'</p>',[$('<img>', {class:"otherImg" ,src: image})],'<p class="othersendTime">'+time+'</p>');
 		}
 		else{
-			$('#msgcontent').append('<p>[密語]'+ user + ":" +'</p>',[$('<img>', {class:"otherImg" ,src: image})],'<p class="othersendTime">'+time+'</p>');
+			$('#msgcontent').append([$('<img>', {class:"otherBighead" ,src: bighead})],'<p>[密語]'+ user + ":" +'</p>',[$('<img>', {class:"otherImg" ,src: image})],'<p class="othersendTime">'+time+'</p>');
 		}
 		if (Notification && Notification.permission === "granted") {
 			if(document.hidden==true){
@@ -89,9 +109,7 @@ $(function(){
 
 	//在線列表
 	socket.on('add userList', function (user) {
-	//add user list to selector without user-self
 		$('#userSelect').append($('<option></option>').attr('value', user).text(user));
-		$('.sidebar').append('<li>'+user+" " +'</li>');
 
     });
 
@@ -115,20 +133,31 @@ $(function(){
 		alert("這個名字有人使用囉!");
 		window.location.reload();
 	});
+	//與伺服器失去連接
 	socket.on('disconnect',function(){
 		$('#msgcontent').append('<p class="loginmsg" style="color:red">與伺服器失去連接...</p>');
 
 	});
+	//與伺服器連接失敗
+	socket.on('error',function(){
+		$('#msgcontent').append('<p class="loginmsg" style="color:red">與伺服器連接失敗</p>');
+	});
 	//重新連接伺服器訊息
 	socket.on('reconnecting',function(){
 		$('#msgcontent').append('<p class="loginmsg" style="color:red">正在重新連接伺服器...</p>');
-
 	});
 	//成功重新連接伺服器訊息
 	socket.on('reconnect',function(){
 		$('#msgcontent').append('<p class="loginmsg" style="color:red">成功重新連接伺服器!</p>');
 		socket.emit('new user',user.name);
 	});
+	socket.on('reconnect_error',function(){
+		$('#msgcontent').append('<p class="loginmsg" style="color:red">重新連接發生錯誤!</p>');
+	});
+	socket.on('reconnect_failed',function(){
+		$('#msgcontent').append('<p class="loginmsg" style="color:red">重新連接失敗!</p>');
+	});
+
 	/****************function******************/
 	// 傳輸訊息
 	function sendMessage(){
@@ -137,35 +166,54 @@ $(function(){
 			//公開聊天
 			if(receiveUser=='all'){
 				$('#msgcontent').append('<div class="mySend"><div class="myDialogue"><li>'+ user.name +": " +user.message+'</li><div class="myArrow"></div></div>'+'<p class="sendTime">'+nowTime()+'</p></div>');
-				socket.emit('message',receiveUser,user.name,user.message,nowTime());//傳輸這項訊息到後端
 				$('#input').val("");//清空輸入列
+				if(user.bighead!=""){
+					socket.emit('message',receiveUser,user.name,user.message,nowTime(),user.bighead);
+				}else{
+					socket.emit('message',receiveUser,user.name,user.message,nowTime());//傳輸這項訊息到後端
+				}
+				
 			}
 			//私人聊天
 			else{
 				$('#msgcontent').append('<div class="mySend"><div class="myDialogue"><li>'+"[密語]"+receiveUser+ ": "+user.message+'</li><div class="myArrow"></div></div>'+'<p class="sendTime">'+nowTime()+'</p></div>');
-				socket.emit('message',receiveUser,user.name,user.message,nowTime());
 				$('#input').val("");//清空輸入列
-				
+				if(user.bighead!=""){
+					socket.emit('message',receiveUser,user.name,user.message,nowTime(),user.bighead);
+				}else{
+					socket.emit('message',receiveUser,user.name,user.message,nowTime());
+				}
 			}
 			scrollMessage();
 		}
 	}
 	//接收訊息
-	function recieveMessage(user, receiveUser, message,time){
+	function recieveMessage(user, receiveUser, message,time,bighead){
 		//公開聊天
 		if(receiveUser=='all'){
-			$('#msgcontent').append('<div class="otherSend"><div class="otherDialogue"><li>'+ user +": " +message+'</li><div class="otherArrow"></div></div>'+'<p class="othersendTime">'+time+'</p></div>');
+			if(bighead!=null){//有大頭貼的訊息
+				$('#msgcontent').append([$('<img>', {class:"otherBighead" ,src: bighead})],'<div class="otherSend"><div class="otherDialogue"><li>'+ user +": " +message+'</li><div class="otherArrow"></div></div>'+'<p class="othersendTime">'+time+'</p></div>');
+			}else{//無大頭貼的訊息
+				$('#msgcontent').append('<div class="otherSend"><div class="otherDialogue"><li>'+ user +": " +message+'</li><div class="otherArrow"></div></div>'+'<p class="othersendTime">'+time+'</p></div>');
+				$('.otherSend').css("clear","both");
+			}
+
 		}
 		//私人聊天
 		else{
-			$('#msgcontent').append('<div class="otherSend"><div class="otherDialogue"><li>'+"[密語]"+user+ ": "+message+'</li><div class="otherArrow"></div></div>'+'<p class="othersendTime">'+time+'</p></div>');
+			if(bighead!=null){
+				$('#msgcontent').append([$('<img>', {class:"otherBighead" ,src: bighead})],'<div class="otherSend"><div class="otherDialogue"><li>'+"[密語]"+user+ ": "+message+'</li><div class="otherArrow"></div></div>'+'<p class="othersendTime">'+time+'</p></div>');
+			}else{
+				$('#msgcontent').append('<div class="otherSend"><div class="otherDialogue"><li>'+"[密語]"+user+ ": "+message+'</li><div class="otherArrow"></div></div>'+'<p class="othersendTime">'+time+'</p></div>');
+				$('.otherSend').css("clear","both");
+			}
 		}
 		scrollMessage();
 	}
 	//取得送出訊息的時間
 	function nowTime(){
 		var time = new Date();
-		var hr   = time.getHours()
+		var hr   = time.getHours();
 		var min  = time.getMinutes();
 		if(time.getHours()<=9){
 			hr="0"+time.getHours();
@@ -192,6 +240,17 @@ $(function(){
 			FR.readAsDataURL( input.files[0] );
 		}
 		scrollMessage();
+	}
+	//上傳大頭貼
+	function bigheadUpload(input){
+		if ( input.files && input.files[0] ) {
+			var FR = new FileReader();
+			FR.onload = function(e){
+				$('.sidebar').prepend([$('<img>', {class:"mybighead" ,src: e.target.result})]);
+				user.bighead=e.target.result;
+			};
+			FR.readAsDataURL( input.files[0] );
+		}
 	}
 	//視窗自動滾動
 	function scrollMessage(){

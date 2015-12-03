@@ -61,7 +61,6 @@ body{
   border-color:transparent transparent transparent #F8C301;
 }
 .otherSend{
-  clear:both;
   float:left;
 }
 .otherDialogue {
@@ -91,7 +90,7 @@ body{
 }
 .othersendTime{
   font-size: 16px;
-  text-align: left;
+  text-align: right;
 }
 p{
   margin:0;
@@ -103,14 +102,7 @@ li{
   list-style-type:none;
   font-weight:bold;
 }
-.sidebar{
-  position:absolute;
-  top:40px;
-  left:-100%;
-  width:320px;
-  height:456px;
-  background-color:#DDDDDD;
-}
+
 
 #inputcontent{
   width:100%;
@@ -150,6 +142,14 @@ li{
   font-size: 20px;
   overflow-y: auto;
 }
+.sidebar{
+  position:absolute;
+  top:40px;
+  left:-100%;
+  width:320px;
+  height:auto;
+  background-color:#DDDDDD;
+}
 .btn{
   border:0;
   border-radius: 0;
@@ -170,21 +170,49 @@ li{
   width:100%;
 }
 
-.btn.online{
+.btn.set{
   background: transparent;
-  top:12px;
-  width:auto;
-  height:40px;
+  height:55px;
+  font-size: 40px;
+  position:relative;
+  bottom:15px;
 }
-.btn.online:active{
+.btn.set:active{
   background-color:rgba(238,68,95,1);
 }
 
 .btn.close{
-  top:5px;
-  right:5px;
+  float:left;
+  display:none;
+}
+.btn.signout{
+  width:100%;
+  background-color:rgba(238,68,95,1);
+}
+.btn.signout:active{
+  background-color:rgb(0,162,232);
+}
+.btn.signout,.btn.bighead,.btn.paint,.btn.changeBack{
+  width:100%;
+  border:1px solid lightgray;
+}
+#username{
+  text-align: left;
+}
+.mybighead{
+  width:150px;
+  height:150px;
+  border-radius: 99em;
   float:right;
 }
+.otherBighead{
+  width:70px;
+  height:70px;
+  border-radius: 99em;
+  float:left;
+  clear:both;
+}
+
 .btn.upload{
   width:100%;
   border:0;
@@ -200,7 +228,7 @@ li{
   bottom:10px;
 }
 
-#upload{
+#upload,#bighead{
   display: none;
 }
 

@@ -57,14 +57,19 @@
         <!--主程式畫面-->
         <div id="main">
             <div id="header">
-                <button class="btn online">在線列表</button>
+                <button class="btn set">≡</button>
+                <button class="btn close">╳</button>
                 <select id = "userSelect" >
                     <option value='all'>公開</option>
                 </select>
             </div>
             <div id="msgcontent"></div>
             <div class="sidebar">
-                <button class="btn close">關閉</button>
+                <h1 id="username"></h1>
+                <button class="btn bighead">上傳大頭照</button>
+                <button class="btn paint">小畫家</button>
+                <button class="btn changeBack">更換背景</button>
+                <button class="btn signout">登出</button>
             </div>
             <div id="inputcontent">
                 <div id="content">
@@ -82,5 +87,6 @@
 
         </div>
         <input id = 'upload' type='file' accept="image/*"/>
+        <input id = 'bighead' type='file' accept="image/*"/ > 
     </body>
 </html>
