@@ -208,6 +208,7 @@ $(function(){
 			}
 		}
 		scrollMessage();
+		return true;//測試用
 	}
 	//取得送出訊息的時間
 	function nowTime(){
@@ -239,6 +240,7 @@ $(function(){
 			FR.readAsDataURL( input.files[0] );
 		}
 		scrollMessage();
+		return true;//測試用
 	}
 	//上傳大頭貼
 	function bigheadUpload(input){
@@ -250,6 +252,7 @@ $(function(){
 			};
 			FR.readAsDataURL( input.files[0] );
 		}
+		return true;//測試用
 	}
 	//視窗自動滾動
 	function scrollMessage(){
