@@ -46,14 +46,14 @@ $(function(){
 		$('.btn.close').hide();
 		$('.btn.set').show();
 	});
+	//上傳大頭照鍵
 	$('.btn.bighead').click(function(){
 		$('#bighead').click();
 	});
-
+	//登出鍵
 	$('.btn.signout').click(function(){
 		window.location.reload();
 	});
-
 	//選擇密語對象鍵
 	$('#userSelect').change(function(){
 		receiveUser = $('#userSelect').find(':selected').val();	
@@ -62,18 +62,16 @@ $(function(){
 	$('.btn.upload').click(function(){
 		$('#upload').click();
 	});
-	$('.btn.receive').click(function(){
-		$('#userSelect').change(function(){
-			receiveUser = $('#userSelect').find(':selected').val();	
-		});
-	});
-	/************圖片容器****************/
+
+	/************圖片容器***************/
+	//圖片上傳
 	$('#upload').change(function(){
 		if($('#upload').val()!=''){
 			readUpload(this);
 			$('#upload').val('');
 		}
 	});
+	//大頭照上傳
 	$('#bighead').change(function(){
 		if($('#bighead').val()!=''){
 			bigheadUpload(this);
@@ -93,15 +91,17 @@ $(function(){
 	});
 	//接收別人的圖片
 	socket.on('image',function(user, receiveUser, image, time,bighead){
-		if(receiveUser=='all'){//公開頻道
+		//公開頻道
+		if(receiveUser=='all'){
 			$('#msgcontent').append('<p>'+ user + ":" +'</p>',[$('<img>', {class:"otherImg" ,src: image})],'<p class="othersendTime">'+time+'</p>');
 			
 		}
-		else{//私人頻道
+		//私人頻道
+		else{
 				$('#msgcontent').append('<p>[密語]'+ user + ":" +'</p>',[$('<img>', {class:"otherImg" ,src: image})],'<p class="othersendTime">'+time+'</p>');
 		}
 		if (Notification && Notification.permission === "granted") {
-			if(document.hidden==true){
+			if(document.hidden==true){//若APP不為前景頁面，則通知用戶訊息
       			spawnNotification(user+" 向您傳送了圖片","img/icons/icon48x48.png","WEIKER");
       		}
     	}
@@ -111,14 +111,12 @@ $(function(){
 	//在線列表
 	socket.on('add userList', function (user) {
 		$('#userSelect').append($('<option></option>').attr('value', user).text(user));
-
     });
 
     //接收上線訊息
 	socket.on('user join',function(user){
 		$('#msgcontent').append('<p class="loginmsg">'+user+' 上線了</p>');
 		scrollMessage();
-		
 	});
 	
 	//接收下線訊息
@@ -127,9 +125,8 @@ $(function(){
         scrollMessage();
 		//remove leaved user in selector 
 		$('#userSelect').find('[value=\''+user+'\']').remove();
-
     });
-	//名稱重複
+	//登入名稱重複
 	socket.on('name repeat',function(){
 		alert("這個名字有人使用囉!");
 		window.location.reload();
@@ -152,9 +149,11 @@ $(function(){
 		$('#msgcontent').append('<p class="loginmsg" style="color:red">成功重新連接伺服器!</p>');
 		socket.emit('new user',user.name);
 	});
+	//重新連接發生錯誤
 	socket.on('reconnect_error',function(){
 		$('#msgcontent').append('<p class="loginmsg" style="color:red">重新連接發生錯誤!</p>');
 	});
+	//重新連接失敗
 	socket.on('reconnect_failed',function(){
 		$('#msgcontent').append('<p class="loginmsg" style="color:red">重新連接失敗!</p>');
 	});
@@ -168,7 +167,7 @@ $(function(){
 			if(receiveUser=='all'){
 				$('#msgcontent').append('<div class="mySend"><div class="myDialogue"><li>'+ user.name +": " +user.message+'</li><div class="myArrow"></div></div>'+'<p class="sendTime">'+nowTime()+'</p></div>');
 				$('#input').val("");//清空輸入列
-				if(user.bighead!=""){
+				if(user.bighead!=""){//若有大頭照
 					socket.emit('message',receiveUser,user.name,user.message,nowTime(),user.bighead);
 				}else{
 					socket.emit('message',receiveUser,user.name,user.message,nowTime());//傳輸這項訊息到後端
@@ -189,20 +188,19 @@ $(function(){
 		}
 	}
 	//接收訊息
-	function recieveMessage(user, receiveUser, message,time,bighead){
+	function recieveMessage(user, receiveUser, message, time, bighead){
 		//公開聊天
-		if(receiveUser=='all'){
-			if(bighead!=null){//有大頭貼的訊息
+		if(receiveUser == 'all'){
+			if(bighead != null){//有大頭貼的訊息
 				$('#msgcontent').append([$('<img>', {class:"otherBighead" ,src: bighead})],'<div class="otherSend"><div class="otherDialogue"><li>'+ user +": " +message+'</li><div class="otherArrow"></div></div>'+'<p class="othersendTime">'+time+'</p></div>');
 			}else{//無大頭貼的訊息
 				$('#msgcontent').append('<div class="otherSend"><div class="otherDialogue"><li>'+ user +": " +message+'</li><div class="otherArrow"></div></div>'+'<p class="othersendTime">'+time+'</p></div>');
 				$('.otherSend').css("clear","both");
 			}
-
 		}
 		//私人聊天
 		else{
-			if(bighead!=null){
+			if(bighead != null){
 				$('#msgcontent').append([$('<img>', {class:"otherBighead" ,src: bighead})],'<div class="otherSend"><div class="otherDialogue"><li>'+"[密語]"+user+ ": "+message+'</li><div class="otherArrow"></div></div>'+'<p class="othersendTime">'+time+'</p></div>');
 			}else{
 				$('#msgcontent').append('<div class="otherSend"><div class="otherDialogue"><li>'+"[密語]"+user+ ": "+message+'</li><div class="otherArrow"></div></div>'+'<p class="othersendTime">'+time+'</p></div>');
@@ -257,7 +255,7 @@ $(function(){
 	function scrollMessage(){
 		$('#msgcontent').stop().animate({scrollTop: $("#msgcontent")[0].scrollHeight}, 800);
 	}
-
+	//通知功能
 	function spawnNotification(theBody,theIcon,theTitle) {
 		var options = {
 		    body: theBody,
@@ -265,6 +263,4 @@ $(function(){
 		}
 		var n = new Notification(theTitle,options);
 	}
-
-
 });
