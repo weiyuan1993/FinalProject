@@ -24,13 +24,13 @@
             <div><h1>U-Chat</h1></div>
             <div><h2>登入</h2></div>
             <div>暱稱</div>
-            <input class="name"/><br />
+            <input class="name" placeholder="20字元內"/><br />
             <div>性別</div>
             <div>
                 <label><input class="radiobtn" type="radio" name="sex" value="boy">男生</label>
                 <label><input class="radiobtn" type="radio" name="sex" value="girl">女生</label>
             </div>
-            <div><button class="btn check">確定</button></div>
+            <button class="btn check">確定</button>
         </div>
         <!--主程式畫面-->
         <div id="main">
@@ -41,12 +41,12 @@
                 <select id = "userSelect" >
                     <option value='all'>公開</option>
                 </select>
-
             </div>
             <div id="msgcontent"></div> <!--訊息視窗-->
             <div class="sidebar">
                 <div id="bigheadimg"></div>
                 <h1 id="username"></h1>
+                <p class="people"></p>
                 <button class="btn bighead">上傳大頭照</button>
                 <button class="btn paint">小畫家(施工中)</button>
                 <button class="btn changeBack">更換背景(施工中)</button>

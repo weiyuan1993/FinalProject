@@ -11,12 +11,6 @@ body{
 }
 h1{
   margin:0;
-  padding-top:5px;
-}
-
-#title{
-  float:left;
-  color:white;
 }
 
 #main{
@@ -30,8 +24,33 @@ h1{
   width:100%;
   height:50px;
   background-color:rgb(0,162,232);
-  box-shadow:0 1px 2px 2px rgba(0,0,0,0.6);
+
 }
+#title{
+  display: inline;
+  color:white;
+  position: relative;
+  top:5px;
+}
+#userSelect{
+  display: inline;
+  border-radius: 0;
+  border:0;
+  background: transparent;
+  color:white;
+  padding : 5px;
+  font-size : 16px;
+  height:50px;
+  outline: none;
+  width:auto;
+  float:right;
+
+  
+ }
+#userSelect:active{
+  background: #117bff;
+ }
+
 
 #msgcontent{
   width:100%;
@@ -103,9 +122,10 @@ h1{
 p{
   margin:0;
   color:black;
+}
+.loginmsg{
   clear:both;
 }
-
 li{
   list-style-type:none;
   font-weight:bold;
@@ -133,6 +153,7 @@ li{
 #senddiv{
   width:20%;
   float:left;
+  background-color: rgb(0,162,232);
 }
 #uploaddiv{
   width:17%;
@@ -159,6 +180,11 @@ li{
   background-color:#DDDDDD;
   text-align: center;
 }
+.people{
+  color:black;
+  font-size:16px;
+  
+}
 .btn{
   border:0;
   border-radius: 0;
@@ -178,6 +204,7 @@ li{
 
 .btn.send{
   width:100%;
+  background-color: transparent;
 }
 
 .btn.set{
@@ -253,22 +280,7 @@ li{
   display: none;
 }
 
-#userSelect{
-  border-radius: 0;
-  background: transparent;
-  color:white;
-  padding : 5px;
-  font-size : 16px;
-  height:50px;
-  border:0;
-  float:right;
-  outline: none;
-  width:auto;
- }
-#userSelect:active{
-  background: #117bff;
-  outline: none;
- }
+
 .sendImg{
   clear:both;
   float:right;

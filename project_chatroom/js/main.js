@@ -13,13 +13,13 @@ $(function(){
 	$('.check').click(function(){	//輸入暱稱年齡後進入
 		user.name = $('.name').val();
 		user.sex = $('input[name=sex]:checked').val();
-		if(user.name != "" && (user.sex == 'boy'||user.sex == 'girl')){  //欄位不可為空
+		if(user.name != "" && (user.sex == 'boy'||user.sex == 'girl') && user.name.length<=20){  //欄位不可為空
 			$('#login').hide();
 			$('#main').fadeIn('slow');
 			$('#username').text(user.name);
-			socket.emit('new user',user.name);
+			socket.emit('new user',user.name,user.sex);
 		}else{
-			alert("名字和性別不得為空!");
+			alert("暱稱過長或有欄位沒填哦!");
 		}
 	});
 		  	
@@ -107,11 +107,14 @@ $(function(){
     	}
 		scrollMessage();
 	});
-
 	//在線列表
 	socket.on('add userList', function (user) {
 		$('#userSelect').append($('<option></option>').attr('value', user).text(user));
     });
+	//在線男女生
+	socket.on('people',function(people){
+		$('.people').text("目前在線："+people+"人");
+	});
 
     //接收上線訊息
 	socket.on('user join',function(user){
@@ -147,7 +150,6 @@ $(function(){
 	//成功重新連接伺服器訊息
 	socket.on('reconnect',function(){
 		$('#msgcontent').append('<p class="loginmsg" style="color:red">成功重新連接伺服器!</p>');
-		socket.emit('new user',user.name);
 	});
 	//重新連接發生錯誤
 	socket.on('reconnect_error',function(){
