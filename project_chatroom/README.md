@@ -11,7 +11,7 @@ Client端主要以JQuery寫成，方便取用DOM。
 
 ###網頁版連線網址:
 - [U-chat](http://140.115.205.117:4000/)
-目前外觀還沒針對各家瀏覽器調整，所以畫面沒有調整得很好
+目前還沒針對各家瀏覽器調整，所以畫面沒有縮放得很好
 
 ###Feature:
 
@@ -21,6 +21,7 @@ Client端主要以JQuery寫成，方便取用DOM。
 * 在線人數
 * 大頭貼
 * 登入介面
+* 更換背景圖片
 * 純手工CSS設計(花很多時間的部分，很喜歡自己搞UI設計，但弄得好累阿，是該學習Bootstrap了)
 * 通知功能(限Firefox OS & Firefox Browser)
 * 斷線後自動重連
@@ -28,9 +29,16 @@ Client端主要以JQuery寫成，方便取用DOM。
 ###未來預計新增的功能:
 
 * 音效
-* 更換背景圖片
 * 小畫家
 * 貼圖功能
 * 影片、音樂上傳
 * 連接資料庫，儲存訊息與帳戶資料
 * 好友功能
+
+
+##後端Server
+- [伺服器](https://drive.google.com/file/d/0B_OnnohRIgRxMzVWOUprTnd0RDQ/view?usp=sharing)
+
+需求node.js環境,進入Chatroom資料夾,輸入"node app.js"，即可啟動server
+瀏覽器開啟輸入"localhost:4000",即可連入聊天室。
+手機版連線網址更改: main.js檔裡io.connect改成自己的IP即可

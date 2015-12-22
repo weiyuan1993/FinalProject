@@ -1,17 +1,18 @@
 {
   "version": "0.1.0",
-  "name": "project_chatroom",
-  "description": "A template with the bare minimum structure",
+  "name": "U-Chat",
+  "description": "A real time chat room",
   "launch_path": "/index.html",
   "icons": {
     "16": "/img/icons/icon16x16.png",
     "48": "/img/icons/icon48x48.png",
     "60": "/img/icons/icon60x60.png",
-    "128": "/img/icons/icon128x128.png"
+    "128": "/img/icons/icon128x128.png",
+    "512": "/img/icons/icon512x512.png"
   },
   "developer": {
     "name": "Weiyuan",
-    "url": "http://example.com"
+    "url": "https://github.com/weiyuan1993/FinalProject-101502522"
   },
   "type": "privileged",
   "permissions": {
@@ -23,12 +24,6 @@
   "installs_allowed_from": [
     "*"
   ],
-  "locales": {
-    "es": {
-      "name": "Aplicación vacía privilegiada",
-      "description": "Una plantilla con la mínima estructura",
-      "permissions": {}
-    }
-  },
+
   "default_locale": "en"
 }

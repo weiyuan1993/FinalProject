@@ -85,7 +85,7 @@ $(function(){
 		recieveMessage(user, receiveUser, message,time,bighead);
 		if (Notification && Notification.permission === "granted") {
 			if(document.hidden==true){//若APP不為前景頁面，則通知用戶訊息
-      			spawnNotification(user+": "+message,"img/icons/icon48x48.png","WEIKER");
+      			spawnNotification(user+": "+message,"img/icons/icon48x48.png","U-Chat");
       		}
     	}
 	});
@@ -102,7 +102,7 @@ $(function(){
 		}
 		if (Notification && Notification.permission === "granted") {
 			if(document.hidden==true){//若APP不為前景頁面，則通知用戶訊息
-      			spawnNotification(user+" 向您傳送了圖片","img/icons/icon48x48.png","WEIKER");
+      			spawnNotification(user+" 向您傳送了圖片","img/icons/icon48x48.png","U-Chat");
       		}
     	}
 		scrollMessage();
